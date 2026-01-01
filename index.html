@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Лабораторна робота №5 - JS Анімація</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f4f4f9;
+        }
+
+        /* Контейнер для анімації */
+        #container {
+            width: 400px;
+            height: 400px;
+            position: relative;
+            background: #ffffff;
+            border: 2px solid #333;
+            margin-top: 20px;
+            overflow: hidden;
+        }
+
+        /* Елемент, який будемо анімувати */
+        #animate {
+            width: 50px;
+            height: 50px;
+            position: absolute;
+            background-color: #3498db;
+            border-radius: 8px;
+        }
+
+        /* Панель керування */
+        .controls {
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 0 5px;
+            background-color: #2ecc71;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background-color: #27ae60;
+        }
+
+        button#stopBtn {
+            background-color: #e74c3c;
+        }
+
+        button#stopBtn:hover {
+            background-color: #c0392b;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Керування анімацією через JavaScript</h2>
+
+    <div id="container">
+        <div id="animate"></div>
+    </div>
+
+    <div class="controls">
+        <button onclick="startAnimation()">Запустити</button>
+        <button id="stopBtn" onclick="stopAnimation()">Зупинити</button>
+        <button onclick="resetPosition()">Скинути</button>
+    </div>
+
+    <script>
+        let pos = 0; // Початкова позиція
+        let interval = null; // Змінна для збереження таймера
+        const elem = document.getElementById("animate");
+
+        function startAnimation() {
+            // Щоб уникнути створення кількох таймерів одночасно
+            if (interval) return; 
+
+            interval = setInterval(frame, 5); // Викликати функцію frame кожні 5мс
+
+            function frame() {
+                if (pos >= 350) {
+                    clearInterval(interval); // Зупинити, коли досягне межі
+                    interval = null;
+                } else {
+                    pos++;
+                    elem.style.top = pos + "px"; 
+                    elem.style.left = pos + "px"; 
+                }
+            }
+        }
+
+        function stopAnimation() {
+            clearInterval(interval);
+            interval = null; // Очищуємо змінну, щоб можна було запустити знову
+        }
+
+        function resetPosition() {
+            stopAnimation();
+            pos = 0;
+            elem.style.top = "0px";
+            elem.style.left = "0px";
+        }
+    </script>
+
+</body>
+</html>
